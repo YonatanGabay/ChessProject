@@ -8,7 +8,7 @@
 using namespace std; // using std functions
 
 
-class Rook : Chessman
+class Rook : public Chessman
 {
 private:
 

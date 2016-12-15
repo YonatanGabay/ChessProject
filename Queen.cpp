@@ -16,4 +16,5 @@ Queen::~Queen()
 char Queen::validMove(string newPlace)
 {
 	// need to do
+	return NULL;
 }

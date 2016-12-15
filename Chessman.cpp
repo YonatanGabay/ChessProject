@@ -6,7 +6,7 @@ using namespace std; // using std functions
 
 Chessman::Chessman(char type, string place) : _place(place)
 {
-	this->_type;
+	this->_type = type;
 }
 
 Chessman::~Chessman()

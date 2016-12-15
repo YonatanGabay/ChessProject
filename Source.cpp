@@ -45,10 +45,12 @@ void main()
 	turn += 48;
 
 	// make start str and put the first layer
-	strcpy_s(msgToGraphics, "QRNBKBNRPPPPPPPP################################pppppppprnbkqbnr1");
+	strcpy_s(msgToGraphics, "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr1");
 	msgToGraphics[TURN] = (char)turn;
 
 	Game game((char)turn, string(msgToGraphics));
+
+	game.printBoard();
 
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 

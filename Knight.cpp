@@ -16,4 +16,5 @@ Knight::~Knight()
 char Knight::validMove(string newPlace)
 {
 	// need to do
+	return NULL;
 }

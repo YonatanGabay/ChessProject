@@ -16,4 +16,5 @@ Rook::~Rook()
 char Rook::validMove(string newPlace)
 {
 	// need to do
+	return NULL;
 }

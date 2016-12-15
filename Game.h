@@ -19,7 +19,8 @@ private:
 	bool isShah(char player);
 	bool isFreePath(string movement);
 	void changePlace(string movement);
-	static Chessman* makeCessman(char type);
+	static Chessman* makeCessman(char type, string place);
+	static string convertPlace(int i, int j);
 
 public:
 	Game(char turn, string board);
@@ -27,6 +28,7 @@ public:
 
 	string move(string movement);
 	bool hasChessman(string place);
+	string turn(string movement);
 	void printBoard();
 };
 

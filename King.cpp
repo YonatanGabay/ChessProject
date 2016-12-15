@@ -16,4 +16,5 @@ King::~King()
 char King::validMove(string newPlace)
 {
 	// need to do
+	return NULL;
 }
