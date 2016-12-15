@@ -48,7 +48,7 @@ void main()
 	strcpy_s(msgToGraphics, "QRNBKBNRPPPPPPPP################################pppppppprnbkqbnr1");
 	msgToGraphics[TURN] = (char)turn;
 
-	Game game((char)turn, msgToGraphics);
+	Game game((char)turn, string(msgToGraphics));
 
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
