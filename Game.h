@@ -27,6 +27,7 @@ public:
 
 	string move(string movement);
 	bool hasChessman(string place);
+	void printBoard();
 };
 
 #endif

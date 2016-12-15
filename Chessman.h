@@ -21,7 +21,7 @@ public:
 	string getPlace();
 	void setPlace(string place);
 
-	virtual char validMove(string move) = 0;
+	virtual char validMove(string newPlace) = 0;
 };
 
 #endif
