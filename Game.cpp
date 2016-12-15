@@ -8,7 +8,7 @@
 
 Game::Game(char turn, string board)
 {
-	int k = 6;
+	int k = 0;
 
 	this->_turn = turn;
 
