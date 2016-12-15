@@ -5,7 +5,7 @@
 
 #define BOARD_SIZE 8
 
- 
+
 Game::Game(char turn, string board)
 {
 	int k = 0;
