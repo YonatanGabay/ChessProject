@@ -1,11 +1,15 @@
 #include "Pipe.h"
 #include <iostream>
 #include <thread>
-
+#include <cstdlib>
+#include "Game.h"
 using namespace std;
+
+#define TURN 64
+
 void main()
 {
-	srand(time_t(NULL));
+	srand(time(NULL));
 
 	
 	Pipe p;
@@ -36,8 +40,16 @@ void main()
 	// msgToGraphics should contain the board string accord the protocol
 	// YOUR CODE
 
-	strcpy_s(msgToGraphics, "RNBKQBNRPPPPPPPP################################pppppppprnbkqbnr1"); // just example...
-	
+	// get rand player
+	int turn = rand() % 2;
+	turn += 48;
+
+	// make start str and put the first layer
+	strcpy_s(msgToGraphics, "QRNBKBNRPPPPPPPP################################pppppppprnbkqbnr1");
+	msgToGraphics[TURN] = (char)turn;
+
+	Game game((char)turn, msgToGraphics);
+
 	p.sendMessageToGraphics(msgToGraphics);   // send the board string
 
 	// get message from graphics

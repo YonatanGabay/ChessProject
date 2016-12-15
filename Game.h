@@ -19,9 +19,10 @@ private:
 	bool isShah(char player);
 	bool isFreePath(string movement);
 	void changePlace(string movement);
+	static Chessman* makeCessman(char type);
 
 public:
-	Game(char turn);
+	Game(char turn, string board);
 	~Game();
 
 	string move(string movement);

@@ -3,12 +3,18 @@
 #include "Game.h"
 #include "Chessman.h"
 
+#define BOARD_SIZE 8
 
 
-
-Game::Game(char turn)
+Game::Game(char turn, string board)
 {
+	int k = 0;
 
+	this->_turn = turn;
+
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			this->_board[i][j] = makeCessman(board[k++]);
 }
 Game::~Game()
 {
@@ -42,4 +48,9 @@ bool Game::isFreePath(string movement)
 void Game::changePlace(string movement)
 {
 
+}
+
+Chessman* Game::makeCessman(char type)
+{
+	return NULL;
 }
