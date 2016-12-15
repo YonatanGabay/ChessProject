@@ -13,7 +13,7 @@ class Rook : Chessman
 private:
 
 public:
-	Rook();
+	Rook(char type, string place);
 	~Rook();
 
 	virtual char validMove(string newPlace);

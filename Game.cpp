@@ -2,6 +2,12 @@
 #include <string> // string library
 #include "Game.h"
 #include "Chessman.h"
+#include "Bishop.h"
+#include "King.h"
+#include "Knight.h"
+#include "Pawn.h"
+#include "Queen.h"
+#include "Rook.h"
 
 #define BOARD_SIZE 8
 
@@ -17,7 +23,10 @@ Game::Game(char turn, string board)
 }
 Game::~Game()
 {
-
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			if (this->_board[i][j] != NULL)
+				delete this->_board[i][j];
 }
 
 string Game::move(string movement)

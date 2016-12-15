@@ -13,7 +13,7 @@ class Knight : Chessman
 private:
 
 public:
-	Knight();
+	Knight(char type, string place);
 	~Knight();
 
 	virtual char validMove(string newPlace);

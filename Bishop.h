@@ -13,7 +13,7 @@ class Bishop : Chessman
 private:
 
 public:
-	Bishop();
+	Bishop(char type, string place);
 	~Bishop();
 
 	virtual char validMove(string newPlace);

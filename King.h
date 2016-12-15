@@ -13,7 +13,7 @@ class King : Chessman
 private:
 
 public:
-	King();
+	King(char type, string place);
 	~King();
 
 	virtual char validMove(string newPlace);

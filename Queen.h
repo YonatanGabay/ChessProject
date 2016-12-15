@@ -13,7 +13,7 @@ class Queen : Chessman
 private:
 
 public:
-	Queen();
+	Queen(char type, string place);
 	~Queen();
 
 	virtual char validMove(string newPlace);

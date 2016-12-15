@@ -13,7 +13,7 @@ class Pawn : Chessman
 private:
 
 public:
-	Pawn();
+	Pawn(char type, string place);
 	~Pawn();
 
 	virtual char validMove(string newPlace);
