@@ -12,8 +12,8 @@ using namespace std; // using std functions
 class Game
 {
 private:
-	char turn;
-	Chessman* board[BOARD_SIZE][BOARD_SIZE];
+	char _turn;
+	Chessman* _board[BOARD_SIZE][BOARD_SIZE];
 
 	char win();
 	bool isShah(char player);
@@ -21,7 +21,7 @@ private:
 	void changePlace(string movement);
 
 public:
-	Game();
+	Game(char turn);
 	~Game();
 
 	string move(string movement);
