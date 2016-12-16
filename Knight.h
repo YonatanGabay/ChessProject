@@ -10,7 +10,7 @@ using namespace std; // using std functions
 
 class Knight : public Chessman
 {
-private:
+private: 
 
 public:
 	Knight(char type, string place);
