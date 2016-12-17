@@ -10,23 +10,34 @@
 #include "Rook.h"
 
 #define BOARD_SIZE 8
-
+#define VALUE_1 49
+#define VALUE_a 97
 
 Game::Game(char turn, string board)
 {
 	int k = 0;
 
 	for (int i = 0; i < BOARD_SIZE; i++)
+	{
 		for (int j = 0; j < BOARD_SIZE; j++)
+		{
 			this->_board[i][j] = makeCessman(board[k++], convertPlace(i, j));
+		}
+	}
 
 }
 Game::~Game()
 {
 	for (int i = 0; i < BOARD_SIZE; i++)
+	{
 		for (int j = 0; j < BOARD_SIZE; j++)
+		{
 			if (this->_board[i][j] != NULL)
+			{
 				delete this->_board[i][j];
+			}
+		}
+	}
 }
 
 string Game::move(string movement)
@@ -37,8 +48,7 @@ string Game::move(string movement)
 
 bool Game::hasChessman(string place)
 {
-	// need to do
-	return NULL;
+	return this->_board[BOARD_SIZE - (place.at(1) - VALUE_1)][place.at(0) - VALUE_a] != NULL;
 }
 
 char Game::win()
@@ -52,10 +62,21 @@ bool Game::isShah(char player)
 	// need to do
 	return NULL;
 }
+
 bool Game::isFreePath(string movement)
 {
-	// need to do
-	return NULL;
+	bool check = true;
+	string place = "";
+	for (int i = 0; i < movement.length(); i += 2)
+	{
+		place = movement.at(i);
+		place += movement.at(i + 1);
+		if (hasChessman(place))
+		{
+			check = false;
+		}
+	}
+	return check;;
 }
 
 void Game::changePlace(string movement)
@@ -117,7 +138,6 @@ string Game::turn(string movement)
 string Game::convertPlace(int i, int j)
 {
 	string place("**");
-	const int VALUE_1 = 49, VALUE_a = 97;
 
 	i = 8 - i; // make at board numbers
 
