@@ -11,7 +11,7 @@ void main()
 {
 	srand(time(NULL));
 
-	
+
 	Pipe p;
 	bool isConnect = p.connect();
 	
