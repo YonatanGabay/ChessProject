@@ -10,8 +10,9 @@ using namespace std;
 
 void main()
 {
-	srand(time(NULL));
+	const int ADD_TO_ASCII = 48;
 
+	srand(time(NULL));
 
 	Pipe p;
 	bool isConnect = p.connect();
@@ -43,10 +44,10 @@ void main()
 
 	// get rand player
 	int turn = rand() % 2;
-	turn += 48;
+	turn += ADD_TO_ASCII;
 
 	// make start str and put the first layer
-	strcpy_s(msgToGraphics, "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr1");
+	strcpy_s(msgToGraphics, "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr*");
 	msgToGraphics[TURN] = (char)turn;
 
 	Game game((char)turn, string(msgToGraphics));
