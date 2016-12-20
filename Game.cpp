@@ -47,26 +47,54 @@ Game::~Game()
 
 string Game::move(string movement)
 {
-	//1
-	//2
-	//4
-	//5
+/*
+#define SHAH_ON_HIMSELF '4'
+#define SOURCE_PLACE_INVALID '2'
+#define SHAH_ON_OPPONENT '1'
+*/
 
 	// need to add
 	
-	bool isVld = true;
 	string dst = movement.substr(2, 2);
 	string src = movement.substr(0, 2);
+	string toRet = " \0";
+	char coco = _turn;
+	int j = (int)movement.at(0) - VALUE_a;
+	int i = (int)movement.at(1) - VALUE_1 + 1;
+	int k = (int)movement.at(2) - VALUE_a;
+	int l = (int)movement.at(3) - VALUE_1 + 1;
 
-	if (!((hasChessman(src) > LETTERS_CHECKER && _turn == BLACK_CH) || (hasChessman(src) < LETTERS_CHECKER && _turn == WHITE_CH)))
+	if (i < 0 || i > BOARD_SIZE || j < 0 || j > BOARD_SIZE || k < 0 || k > BOARD_SIZE || l < 0 || l > BOARD_SIZE)
 	{
-		isVld = false;
+		toRet[0] = INVALID_PLACE_INDEX;
 	}
-	else if (_board[BOARD_SIZE - (src.at(1) - VALUE_1)][src.at(0) - VALUE_a]->validMove(dst))
+	else if (!((hasChessman(src) > LETTERS_CHECKER && _turn == BLACK_CH) || (hasChessman(src) < LETTERS_CHECKER && _turn == WHITE_CH))) //check if in the sorce place there is a valid chessman
 	{
-
+		toRet[0] = SOURCE_PLACE_INVALID;
 	}
-
+	else if ((toRet = _board[BOARD_SIZE - (src.at(1) - VALUE_1)][src.at(0) - VALUE_a]->validMove(movement, *this)) != "0\0")
+	{
+		
+	}
+	else if(isShah(_turn))
+	{
+		toRet[0] = SHAH_ON_HIMSELF;
+	}
+	else
+	{
+		if (_turn == BLACK_CH)
+		{
+			coco = WHITE_CH;
+		}
+		else
+		{
+			coco = BLACK_CH;
+		}
+		if (isShah(coco))
+		{
+			toRet[0] = 1;
+		}
+	}
 
 	return NULL;
 }
@@ -94,13 +122,13 @@ bool Game::isShah(char player)
 
 	// need to add
 
-	shah = shahRook(kingPlace, player);
+	shah = shahPawn(kingPlace);/*shahRook(kingPlace, player);
 	if (!shah)
 	{
 		shah = shahKing(kingPlace, player);
-	}
+	}*/
 
-	return NULL;
+	return shah;
 }
 
 bool Game::isFreePath(string movement)
@@ -306,5 +334,38 @@ int Game::isBlack(char chessman)
 		ret = WHITE_CH;
 
 	return ret;
+}
+
+
+bool Game::shahPawn(string kingPlace)
+{
+	int j = (int)kingPlace.at(0) - VALUE_a;
+	int i = (int)kingPlace.at(1) - VALUE_1 + 1;
+	bool isShah = false;
+
+	if (_turn == BLACK_NUM)
+	{
+		if (i > 0 && j > 0)
+		{
+			isShah = ((hasChessman(convertPlace(i - 1, j - 1)) == KING_B));
+		}
+		if (i > 0 && j < BOARD_SIZE && !isShah)
+		{
+			isShah = ((hasChessman(convertPlace(i - 1, j + 1)) == KING_B));
+		}
+	}
+	else
+	{
+		if (i < BOARD_SIZE && j > 0)
+		{
+			isShah = ((hasChessman(convertPlace(i + 1, j - 1)) == KING_B));
+		}
+		if (i < BOARD_SIZE && j < BOARD_SIZE && !isShah)
+		{
+			isShah = ((hasChessman(convertPlace(i + 1, j + 1)) == KING_B));
+		}
+	}
+
+	return isShah;
 }
 

@@ -1,2 +1,2 @@
-﻿  Source.cpp
-c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7 - chess project part a\chessproject\chessproject\source.cpp(13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  Game.cpp
+c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7 - chess project part a\chessproject\chessproject\game.cpp(138): warning C4018: '<': signed/unsigned mismatch

@@ -35,7 +35,28 @@ char* Pawn::validMove(string movement, Game game)
 			{
 				if (letterFrom == letterTo)
 				{
-					ret[RET_INDEX] = VALID_MOVE;
+					if (this->getType() == PAWN_W)
+					{
+						if (numTo + 1 == numFrom && game.hasChessman(to) == NULL)
+						{
+							ret[RET_INDEX] = VALID_MOVE;
+						}
+						else
+						{
+							ret[RET_INDEX] = INVALID_MOVEMENT;
+						}
+					}
+					else // if (this->getType() == PAWN_B)
+					{
+						if (numTo - 1 == numFrom && game.hasChessman(to) == NULL)
+						{
+							ret[RET_INDEX] = VALID_MOVE;
+						}
+						else
+						{
+							ret[RET_INDEX] = INVALID_MOVEMENT;
+						}
+					}
 				}
 				else if (letterFrom == letterTo + 1 || letterFrom == letterTo - 1)
 				{

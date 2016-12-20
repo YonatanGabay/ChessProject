@@ -59,6 +59,7 @@ private:
 
 	bool shahRook(string kingPlace, char player);
 	bool shahKing(string kingPlace, char player);
+	bool shahPawn(string kingPlace);
 
 public:
 	Game(char turn, string board);
