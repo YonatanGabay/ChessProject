@@ -16,7 +16,7 @@ public:
 	Knight(char type, string place);
 	~Knight();
 
-	virtual char validMove(string newPlace);
+	virtual char* validMove(string newPlace, Game game);
 };
 
 #endif

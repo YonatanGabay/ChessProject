@@ -14,15 +14,23 @@ Game::Game(char turn, string board)
 {
 	int k = 0;
 
+	this->_turn = board[64];
+
 	for (int i = 0; i < BOARD_SIZE; i++)
-	{
 		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			this->_board[i][j] = makeCessman(board[k++], convertPlace(i, j));
-		}
-	}
+			this->_board[i][j] = makeChessman(board[k++], convertPlace(i, j));
 
 }
+
+Game::Game(const Game& other)
+{
+	this->_turn = other._turn;
+
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			this->_board[i][j] = makeChessman(other._board[i][j]->getType(), convertPlace(i, j));
+}
+
 Game::~Game()
 {
 	for (int i = 0; i < BOARD_SIZE; i++)
@@ -39,7 +47,22 @@ Game::~Game()
 
 string Game::move(string movement)
 {
-	// need to do
+	// need to add
+	
+	bool isVld = true;
+	string dst = movement.substr(2, 2);
+	string src = movement.substr(0, 2);
+
+	if (!((hasChessman(src) > LETTERS_CHECKER && _turn == BLACK_CH) || (hasChessman(src) < LETTERS_CHECKER && _turn == WHITE_CH)))
+	{
+		isVld = false;
+	}
+	else if (_board[BOARD_SIZE - (src.at(1) - VALUE_1)][src.at(0) - VALUE_a]->validMove(dst))
+	{
+
+	}
+
+
 	return NULL;
 }
 
@@ -67,6 +90,10 @@ bool Game::isShah(char player)
 	// need to add
 
 	shah = shahRook(kingPlace, player);
+	if (!shah)
+	{
+		shah = shahKing(kingPlace, player);
+	}
 
 	return NULL;
 }
@@ -84,7 +111,7 @@ bool Game::isFreePath(string movement)
 			check = false;
 		}
 	}
-	return check;;
+	return check;
 }
 
 void Game::changePlace(string movement) //movement: "abcd", ab= sorce place, cd= destination place
@@ -98,7 +125,7 @@ void Game::changePlace(string movement) //movement: "abcd", ab= sorce place, cd=
 	_board[BOARD_SIZE - (movement.at(3) - VALUE_1)][movement.at(02) - VALUE_a] = temp; //save in destination place the chessman
 }
 
-Chessman* Game::makeCessman(char type, string place)
+Chessman* Game::makeChessman(char type, string place)
 {
 	Chessman* chessman = NULL;
 
@@ -167,7 +194,7 @@ string Game::getKingPlace(char player)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if ((player == WITE && _board[i][j]->getType() == KING_W) || (player == WITE && _board[i][j]->getType() == KING_W))
+			if ((player == WHITE_CH && _board[i][j]->getType() == KING_W) || (player == WHITE_CH && _board[i][j]->getType() == KING_W))
 			{
 				place = convertPlace(i, j);
 				break;
@@ -192,7 +219,7 @@ bool Game::shahRook(string kingPlace, char player)
 	{
 		if (_board[i][j])
 		{
-			if ((_board[i][j]->getType() == KING_B && player == BLACK) || (_board[i][j]->getType() == KING_W && player == WITE))
+			if ((_board[i][j]->getType() == KING_B && player == BLACK_CH) || (_board[i][j]->getType() == KING_W && player == WHITE_CH))
 			{
 				isShah = true;
 			}
@@ -206,7 +233,7 @@ bool Game::shahRook(string kingPlace, char player)
 	{
 		if (_board[i][j])
 		{
-			if ((_board[i][j]->getType() == KING_B && player == BLACK) || (_board[i][j]->getType() == KING_W && player == WITE))
+			if ((_board[i][j]->getType() == KING_B && player == BLACK_CH) || (_board[i][j]->getType() == KING_W && player == WHITE_CH))
 			{
 				isShah = true;
 			}
@@ -215,5 +242,64 @@ bool Game::shahRook(string kingPlace, char player)
 	}
 
 	return isShah;
+}
+
+bool Game::shahKing(string kingPlace, char player)
+{
+	int j = (int)kingPlace.at(0) - VALUE_a;
+	int i = (int)kingPlace.at(1) - VALUE_1 + 1;
+	bool isShah = false;
+
+	if (i > 0)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i - 1, j)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i - 1, j)) == KING_W));
+	}
+	if (j > 0 && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i, j - 1)) == KING_W));
+	}
+	if (j < BOARD_SIZE && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i, j + 1)) == KING_W));
+	}
+	if (i < BOARD_SIZE && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j)) == KING_W));
+	}
+	if (j > 0 && i > 0 && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i - 1, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i - 1, j - 1)) == KING_W));
+	}
+	if (j > 0 && i < BOARD_SIZE && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j - 1)) == KING_W));
+	}
+	if (i > 0 && j < BOARD_SIZE && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i - 1, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i - 1, j + 1)) == KING_W));
+	}
+	if (j < BOARD_SIZE && i < BOARD_SIZE && !isShah)
+	{
+		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j + 1)) == KING_W));
+	}
+
+	return isShah;
+}
+
+int Game::isBlack(char chessman)
+{
+	int ret = 0;
+	const int MIN_BLACK = 97, MAX_BLACK = 122;
+
+	if (chessman >= MIN_BLACK && chessman <= MAX_BLACK)
+		ret = BLACK_CH;
+
+	else if (chessman == NULL)
+		ret = NULL;
+
+	else
+		ret = WHITE_CH;
+
+	return ret;
 }
 

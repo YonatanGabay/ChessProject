@@ -3,6 +3,7 @@
 
 #include <iostream> // input-output library
 #include <string> // string library
+#include "Game.h"
 
 using namespace std; // using std functions
 
@@ -21,7 +22,7 @@ public:
 	string getPlace();
 	void setPlace(string place);
 
-	virtual char validMove(string newPlace) = 0;
+	virtual char* validMove(string newPlace, Game game) = 0;
 };
 
 #endif
