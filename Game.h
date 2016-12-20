@@ -42,6 +42,7 @@ using namespace std; // using std functions
 
 #define LETTERS_CHECKER 60
 
+class Chessman;
 
 class Game
 {

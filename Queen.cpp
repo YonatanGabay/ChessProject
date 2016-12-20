@@ -13,7 +13,7 @@ Queen::~Queen()
 
 }
 
-char Queen::validMove(string newPlace)
+char* Queen::validMove(string newPlace, Game game)
 {
 	// need to do
 	return NULL;

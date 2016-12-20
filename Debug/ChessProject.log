@@ -1,2 +1,7 @@
-﻿  Game.cpp
-c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7 - chess project part a\chessproject\chessproject\game.cpp(138): warning C4018: '<': signed/unsigned mismatch
+﻿  Queen.cpp
+  Knight.cpp
+  King.cpp
+  Bishop.cpp
+  Generating Code...
+  ChessProject.vcxproj -> C:\Users\User\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7 - Chess project Part A\ChessProject\Debug\ChessProject.exe
+  ChessProject.vcxproj -> C:\Users\User\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7 - Chess project Part A\ChessProject\Debug\ChessProject.pdb (Full PDB)

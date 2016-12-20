@@ -65,9 +65,12 @@ void main()
 		// according the protocol. Ex: e2e4           (move e2 to e4)
 		
 		// YOUR CODE
-		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
 
-		/******* JUST FOR EREZ DEBUGGING ******/
+		const char* data = game.move(msgFromGraphics).data();
+		cout << data << endl;
+		strcpy_s(msgToGraphics, data); // msgToGraphics should contain the result of the operation
+
+		/******* JUST FOR EREZ DEBUGGING ******
 		int r = rand() % 10; // just for debugging......
 		msgToGraphics[0] = (char)(1 + '0');
 		msgToGraphics[1] = 0;

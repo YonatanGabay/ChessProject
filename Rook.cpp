@@ -13,7 +13,7 @@ Rook::~Rook()
 
 }
 
-char Rook::validMove(string newPlace)
+char* Rook::validMove(string newPlace, Game game)
 {
 	// need to do
 	return NULL;
