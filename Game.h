@@ -51,20 +51,27 @@ private:
 	Chessman* _board[BOARD_SIZE][BOARD_SIZE];
 
 	char win();
+
 	bool isShah(char player);
 	bool isFreePath(string movement);
-	void changePlace(string movement);
-	static Chessman* makeChessman(char type, string place);
-	static string convertPlace(int i, int j);
+
 	string getKingPlace(char player);
+	void changePlace(string movement);
+	
+	static string convertPlace(int i, int j);
+	static Chessman* makeChessman(char type, string place);
+	
 
 	bool shahRook(string kingPlace, char player);
 	bool shahKing(string kingPlace, char player);
 	bool shahPawn(string kingPlace);
+	bool shahBishop(string kingPlace);
+	bool shahKnight(string kingPlace);
+	bool shahQueen(string kingPlace);
 
 public:
-	Game(char turn, string board);
 	Game(const Game& other);
+	Game(char turn, string board);
 	~Game();
 
 	string turn(string movement);
