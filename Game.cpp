@@ -47,6 +47,11 @@ Game::~Game()
 
 string Game::move(string movement)
 {
+	//1
+	//2
+	//4
+	//5
+
 	// need to add
 	
 	bool isVld = true;

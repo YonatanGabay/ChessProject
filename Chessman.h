@@ -7,6 +7,7 @@
 
 using namespace std; // using std functions
 
+class Game;
 
 class Chessman
 {

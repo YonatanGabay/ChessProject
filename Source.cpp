@@ -2,6 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <cstdlib>
+#include <string>
 #include "Game.h"
 using namespace std;
 
