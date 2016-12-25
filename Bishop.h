@@ -16,7 +16,7 @@ public:
 	Bishop(char type, string place);
 	~Bishop();
 
-	virtual char* validMove(string movement, Game game);
+	virtual string validMove(string movement, Game game);
 };
 
 #endif

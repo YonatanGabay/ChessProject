@@ -14,7 +14,7 @@ Pawn::~Pawn()
 
 }
 
-char* Pawn::validMove(string movement, Game game)
+string Pawn::validMove(string movement, Game game)
 {
 	const int RET_INDEX = 0;
 	const int LETTER = 0, NUM = 1;
@@ -23,7 +23,7 @@ char* Pawn::validMove(string movement, Game game)
 	const string TO = movement.substr(TO1, TO2);
 	const string FROM = movement.substr(FROM1, FROM2);
 
-	char ret[RET_SIZE] = { NULL };
+	string ret = "*";
 	const char LETTER_TO = TO[LETTER], NUM_TO = TO[NUM];
 	const char LETTER_FROM = FROM[LETTER], NUM_FROM = FROM[NUM];
 

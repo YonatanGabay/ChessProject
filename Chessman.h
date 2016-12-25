@@ -23,7 +23,7 @@ public:
 	string getPlace();
 	void setPlace(string place);
 
-	virtual char* validMove(string movement, Game game) = 0;
+	virtual string validMove(string movement, Game game) = 0;
 };
 
 #endif
