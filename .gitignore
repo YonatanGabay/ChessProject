@@ -5,3 +5,13 @@
 *.idb
 *.tlog
 *.lastbuildstate
+Debug/ChessProject.log
+Debug/ChessProject.tlog/CL.write.1.tlog
+Debug/Game.obj
+Debug/King.obj
+Debug/Knight.obj
+Debug/Pawn.obj
+Debug/Queen.obj
+Debug/Rook.obj
+Debug/vc140.idb
+Debug/vc140.pdb
