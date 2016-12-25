@@ -39,7 +39,7 @@ char* Pawn::validMove(string movement, Game game)
 					{
 						if (numTo + 1 == numFrom && game.hasChessman(to) == NULL)
 						{
-							ret[RET_INDEX] = VALID_MOVE;
+							ret[RET_INDEX] = VALID_MOVEMENT;
 						}
 						else
 						{
@@ -50,7 +50,7 @@ char* Pawn::validMove(string movement, Game game)
 					{
 						if (numTo - 1 == numFrom && game.hasChessman(to) == NULL)
 						{
-							ret[RET_INDEX] = VALID_MOVE;
+							ret[RET_INDEX] = VALID_MOVEMENT;
 						}
 						else
 						{
@@ -66,7 +66,7 @@ char* Pawn::validMove(string movement, Game game)
 						{
 							if (game.isBlack(game.hasChessman(to)) == BLACK_CH)
 							{
-								ret[RET_INDEX] = VALID_MOVE;
+								ret[RET_INDEX] = VALID_MOVEMENT;
 							}
 							else
 							{
@@ -84,7 +84,7 @@ char* Pawn::validMove(string movement, Game game)
 						{
 							if (game.isBlack(game.hasChessman(to)) == WHITE_CH)
 							{
-								ret[RET_INDEX] = VALID_MOVE;
+								ret[RET_INDEX] = VALID_MOVEMENT;
 							}
 							else
 							{

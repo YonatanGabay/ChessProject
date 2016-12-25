@@ -1,16 +1,4 @@
-﻿  stdafx.cpp
-  Source.cpp
+﻿  Source.cpp
 c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project part a\chessproject\chessproject\source.cpp(15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Rook.cpp
-  Queen.cpp
-  Pawn.cpp
-  Knight.cpp
-  King.cpp
-  Game.cpp
-c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project part a\chessproject\chessproject\game.cpp(138): warning C4018: '<': signed/unsigned mismatch
-  Chessman.cpp
-  Bishop.cpp
-  Generating Code...
-c:\users\user\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project part a\chessproject\chessproject\pawn.cpp(121): warning C4172: returning address of local variable or temporary: ret
   ChessProject.vcxproj -> C:\Users\User\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess project Part A\ChessProject\Debug\ChessProject.exe
   ChessProject.vcxproj -> C:\Users\User\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess project Part A\ChessProject\Debug\ChessProject.pdb (Full PDB)

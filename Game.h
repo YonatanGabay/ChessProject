@@ -31,7 +31,7 @@ using namespace std; // using std functions
 #define PAWN_W 'P'
 
 // responses to fronted
-#define VALID_MOVE '0'
+#define VALID_MOVEMENT '0'
 #define SHAH_ON_OPPONENT '1'
 #define SOURCE_PLACE_INVALID '2'
 #define DEST_PLACE_INVALID '3'
