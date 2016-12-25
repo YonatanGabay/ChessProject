@@ -7,6 +7,7 @@
 
 using namespace std; // using std functions
 
+#define	RET_SIZE 2
 #define BOARD_SIZE 8
 
 #define VALUE_1 49

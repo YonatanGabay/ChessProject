@@ -8,8 +8,6 @@
 
 using namespace std; // using std functions
 
-#define	RET_SIZE 2
-
 
 class Pawn : public Chessman
 {

@@ -13,7 +13,7 @@ King::~King()
 
 }
 
-char* King::validMove(string newPlace, Game game)
+char* King::validMove(string movement, Game game)
 {
 	// need to do
 	return NULL;

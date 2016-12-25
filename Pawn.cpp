@@ -20,102 +20,95 @@ char* Pawn::validMove(string movement, Game game)
 	const int LETTER = 0, NUM = 1;
 	const int TO1 = 2, TO2 = 4, FROM1 = 0, FROM2 = 2;
 
-	const string to = movement.substr(TO1, TO2);
-	const string from = movement.substr(FROM1, FROM2);
+	const string TO = movement.substr(TO1, TO2);
+	const string FROM = movement.substr(FROM1, FROM2);
 
 	char ret[RET_SIZE] = { NULL };
-	const char letterTo = to[LETTER], numTo = to[NUM];
-	const char letterFrom = from[LETTER], numFrom = from[NUM];
+	const char LETTER_TO = TO[LETTER], NUM_TO = TO[NUM];
+	const char LETTER_FROM = FROM[LETTER], NUM_FROM = FROM[NUM];
 
-	if (this->getPlace() == from)
+	if (TO != FROM) // if src and dst different
 	{
-		if (to != from) // if src and dst different
+		if (game.isBlack(game.hasChessman(FROM)) != game.isBlack(game.hasChessman(TO))) // if is not same color
 		{
-			if (game.isBlack(game.hasChessman(from)) != game.isBlack(game.hasChessman(to))) // if is not same color
+			if (LETTER_FROM == LETTER_TO)
 			{
-				if (letterFrom == letterTo)
+				if (this->getType() == PAWN_W)
 				{
-					if (this->getType() == PAWN_W)
+					if (NUM_TO + 1 == NUM_FROM && game.hasChessman(TO) == NULL)
 					{
-						if (numTo + 1 == numFrom && game.hasChessman(to) == NULL)
-						{
-							ret[RET_INDEX] = VALID_MOVEMENT;
-						}
-						else
-						{
-							ret[RET_INDEX] = INVALID_MOVEMENT;
-						}
+						ret[RET_INDEX] = VALID_MOVEMENT;
 					}
-					else // if (this->getType() == PAWN_B)
+					else
 					{
-						if (numTo - 1 == numFrom && game.hasChessman(to) == NULL)
-						{
-							ret[RET_INDEX] = VALID_MOVEMENT;
-						}
-						else
-						{
-							ret[RET_INDEX] = INVALID_MOVEMENT;
-						}
+						ret[RET_INDEX] = INVALID_MOVEMENT;
 					}
 				}
-				else if (letterFrom == letterTo + 1 || letterFrom == letterTo - 1)
+				else // if (this->getType() == PAWN_B)
 				{
-					if (this->getType() == PAWN_W)
+					if (NUM_TO - 1 == NUM_FROM && game.hasChessman(TO) == NULL)
 					{
-						if (numFrom == numTo + 1)
-						{
-							if (game.isBlack(game.hasChessman(to)) == BLACK_CH)
-							{
-								ret[RET_INDEX] = VALID_MOVEMENT;
-							}
-							else
-							{
-								ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
-							}
-						}
-						else
-						{
-							ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
-						}
+						ret[RET_INDEX] = VALID_MOVEMENT;
 					}
-					else // if (this->getType() == PAWN_B)
+					else
 					{
-						if (numFrom == numTo - 1)
-						{
-							if (game.isBlack(game.hasChessman(to)) == WHITE_CH)
-							{
-								ret[RET_INDEX] = VALID_MOVEMENT;
-							}
-							else
-							{
-								ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
-							}
-						}
-						else
-						{
-							ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
-						}
+						ret[RET_INDEX] = INVALID_MOVEMENT;
 					}
-				}
-				else
-				{
-					ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
 				}
 			}
-
-			else // if there same color
+			else if (LETTER_FROM == LETTER_TO + 1 || LETTER_FROM == LETTER_TO - 1)
 			{
-				ret[RET_INDEX] = DEST_PLACE_INVALID; // error - try to eat chessman with same color
+				if (this->getType() == PAWN_W)
+				{
+					if (NUM_FROM == NUM_TO + 1)
+					{
+						if (game.isBlack(game.hasChessman(TO)) == BLACK_CH)
+						{
+							ret[RET_INDEX] = VALID_MOVEMENT;
+						}
+						else
+						{
+							ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
+						}
+					}
+					else
+					{
+						ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
+					}
+				}
+				else // if (this->getType() == PAWN_B)
+				{
+					if (NUM_FROM == NUM_TO - 1)
+					{
+						if (game.isBlack(game.hasChessman(TO)) == WHITE_CH)
+						{
+							ret[RET_INDEX] = VALID_MOVEMENT;
+						}
+						else
+						{
+							ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
+						}
+					}
+					else
+					{
+						ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
+					}
+				}
+			}
+			else
+			{
+				ret[RET_INDEX] = INVALID_MOVEMENT; // error - invalid movement
 			}
 		}
-		else // if (to == from)
+
+		else // if there same color
 		{
-			ret[RET_INDEX] = SAME_SOURCE_AND_DEST;
+			ret[RET_INDEX] = DEST_PLACE_INVALID; // error - try to eat chessman with same color
 		}
 	}
-	else
+	else // if (TO == FROM)
 	{
-		cout << "ERROR this place Pawn!!!" << endl;
+		ret[RET_INDEX] = SAME_SOURCE_AND_DEST;
 	}
 
 	return ret;
