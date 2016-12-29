@@ -16,7 +16,7 @@ public:
 	Rook(char type, string place);
 	~Rook();
 
-	virtual char* validMove(string movement, Game game);
+	virtual string validMove(string movement, Game game);
 };
 
 #endif
