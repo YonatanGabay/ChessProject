@@ -20,8 +20,6 @@ string Bishop::validMove(string movement, Game game)
 	const int LETTER_INDEX = 0, NUM_INDEX = 1;
 	const int TO1 = 2, TO2 = 4, FROM1 = 0, FROM2 = 2;
 
-	bool inThisOption = false, freePath = true;
-
 	const string TO = movement.substr(TO1, TO2);
 	const string FROM = movement.substr(FROM1, FROM2);
 
