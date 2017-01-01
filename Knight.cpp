@@ -13,7 +13,7 @@ Knight::~Knight()
 
 }
 
-char* Knight::validMove(string movement, Game game)
+string Knight::validMove(string movement, Game game)
 {
 	// need to do
 	return NULL;

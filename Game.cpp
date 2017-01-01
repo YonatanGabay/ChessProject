@@ -135,7 +135,7 @@ bool Game::isFreePath(string movement)
 {
 	bool check = true;
 	string place = "";
-	for (int i = 0; i < movement.length(); i += 2)
+	for (unsigned int i = 0; i < movement.length(); i += 2)
 	{
 		place = movement.at(i);
 		place += movement.at(i + 1);

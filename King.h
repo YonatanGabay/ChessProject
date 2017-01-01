@@ -16,7 +16,7 @@ public:
 	King(char type, string place);
 	~King();
 
-	virtual char* validMove(string movement, Game game);
+	virtual string validMove(string movement, Game game);
 };
 
 #endif
