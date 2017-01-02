@@ -67,14 +67,14 @@ void main()
 		
 		// YOUR CODE
 
-		//const char* data = game.move(msgFromGraphics).data();
-		//cout << data << endl;
-		//strcpy_s(msgToGraphics, data); // msgToGraphics should contain the result of the operation
+		const char* data = game.move(msgFromGraphics);
+		cout << data << endl;
+		strcpy_s(msgToGraphics, data); // msgToGraphics should contain the result of the operation
 
 		/******* JUST FOR EREZ DEBUGGING ******/
-		int r = rand() % 10; // just for debugging......
-		msgToGraphics[0] = (char)(1 + '0');
-		msgToGraphics[1] = 0;
+		//int r = rand() % 10; // just for debugging......
+		//msgToGraphics[0] = (char)(1 + '0');
+		//msgToGraphics[1] = 0;
 		/******* JUST FOR EREZ DEBUGGING ******/
 
 

@@ -60,12 +60,14 @@ private:
 	void changePlace(string movement);
 	
 	static string convertPlace(int i, int j);
+	static void convertPlace(string place, int& i, int& j);
 	static Chessman* makeChessman(char type, string place);
 	
+	char convertTurnToChar();
 
 	bool shahRook(string kingPlace, char player);
 	bool shahKing(string kingPlace, char player);
-	bool shahPawn(string kingPlace);
+	bool shahPawn(string kingPlace, char player);
 	bool shahBishop(string kingPlace);
 	bool shahKnight(string kingPlace);
 	bool shahQueen(string kingPlace);
@@ -76,10 +78,12 @@ public:
 	~Game();
 
 	string turn(string movement);
-	string move(string movement);
+	char* move(string movement);
 
 	int isBlack(char chessman);
 	char hasChessman(string place);
+
+	char getTurn();
 
 	void printBoard();
 };

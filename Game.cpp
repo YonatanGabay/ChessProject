@@ -28,7 +28,10 @@ Game::Game(const Game& other)
 
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
-			this->_board[i][j] = makeChessman(other._board[i][j]->getType(), convertPlace(i, j));
+			 if (other._board[i][j] != NULL)
+				this->_board[i][j] = makeChessman(other._board[i][j]->getType(), convertPlace(i, j));
+			else
+				this->_board[i][j] = NULL;
 }
 
 Game::~Game()
@@ -45,66 +48,84 @@ Game::~Game()
 	}
 }
 
-string Game::move(string movement)
+char* Game::move(string movement)
 {
-/*
-#define SHAH_ON_HIMSELF '4'
-#define SOURCE_PLACE_INVALID '2'
-#define SHAH_ON_OPPONENT '1'
-*/
+	/*
+	#define VALID_MOVEMENT '0'  ++
+	#define SHAH_ON_OPPONENT '1'
+	#define SOURCE_PLACE_INVALID '2' ++
+	#define DEST_PLACE_INVALID '3'  ++
+	#define SHAH_ON_HIMSELF '4'
+	#define INVALID_PLACE_INDEX '5' ++
+	#define INVALID_MOVEMENT '6'  ++
+	#define SAME_SOURCE_AND_DEST '7'  ++
 
-	// need to add
-	
+	*/
+	int i, j;
 	string dst = movement.substr(2, 2);
 	string src = movement.substr(0, 2);
-	string toRet = " \0";
-	char coco = _turn;
-	int j = (int)movement.at(0) - VALUE_a;
-	int i = (int)movement.at(1) - VALUE_1 + 1;
-	int k = (int)movement.at(2) - VALUE_a;
-	int l = (int)movement.at(3) - VALUE_1 + 1;
+	char* toRet = new char[2];
+	toRet[1] = 0;
+	Chessman* temp;
+	int srcLetter = (int)movement.at(0) - VALUE_a;
+	int srcNum = (int)movement.at(1) - VALUE_1 + 1;
+	int dstLetter = (int)movement.at(2) - VALUE_a;
+	int dstNum = (int)movement.at(3) - VALUE_1 + 1;
 
-	if (i < 0 || i > BOARD_SIZE || j < 0 || j > BOARD_SIZE || k < 0 || k > BOARD_SIZE || l < 0 || l > BOARD_SIZE)
+	if (srcNum < 0 || srcNum > BOARD_SIZE || srcLetter < 0 || srcLetter > BOARD_SIZE || dstLetter < 0 || dstLetter > BOARD_SIZE || dstNum < 0 || dstNum > BOARD_SIZE)
 	{
 		toRet[0] = INVALID_PLACE_INDEX;
 	}
-	else if (!((hasChessman(src) > LETTERS_CHECKER && _turn == BLACK_CH) || (hasChessman(src) < LETTERS_CHECKER && _turn == WHITE_CH))) //check if in the sorce place there is a valid chessman
+	else if (isBlack(hasChessman(src)) != convertTurnToChar()) //check if in the sorce place there is a valid chessman
 	{
 		toRet[0] = SOURCE_PLACE_INVALID;
 	}
-	else if ((toRet = _board[BOARD_SIZE - (src.at(1) - VALUE_1)][src.at(0) - VALUE_a]->validMove(movement, *this)) != "0\0")
-	{
-		
-	}
-	else if(isShah(_turn))
-	{
-		toRet[0] = SHAH_ON_HIMSELF;
-	}
 	else
 	{
-		if (_turn == BLACK_CH)
+		convertPlace(string(src), i, j);
+
+		toRet[0] = _board[i][j]->validMove(movement, *this)[0];
+
+		if (toRet[0] == VALID_MOVEMENT)
 		{
-			coco = WHITE_CH;
-		}
-		else
-		{
-			coco = BLACK_CH;
-		}
-		if (isShah(coco))
-		{
-			toRet[0] = 1;
+			//save dst
+			temp = _board[BOARD_SIZE - dstNum][dstLetter];
+			//change places
+			_board[BOARD_SIZE - dstNum][dstLetter] = _board[BOARD_SIZE - srcNum][srcLetter];
+			_board[BOARD_SIZE - srcNum][srcLetter] = NULL;
+
+			//check if there is shah on himself
+			if (isShah(_turn))
+			{
+				_board[BOARD_SIZE - srcNum][srcLetter] = _board[BOARD_SIZE - dstNum][dstLetter];
+				_board[BOARD_SIZE - dstNum][dstLetter] = temp;
+
+				toRet[0] = SHAH_ON_HIMSELF;
+			}
+
+			else if (_turn == WHITE_CH)
+			{
+				if (isShah(BLACK_CH))
+				{
+					toRet[0] = SHAH_ON_OPPONENT;
+				}
+			}
+			else if (isShah(WHITE_CH)) //if _turn == BLACK_CH
+			{
+				toRet[0] = SHAH_ON_OPPONENT;
+			}
 		}
 	}
 
-	return NULL;
+	return toRet;
 }
 
 char Game::hasChessman(string place)
 {
 	char toRet = NULL;
-	if (_board[BOARD_SIZE - (place.at(1) - VALUE_1)][place.at(0) - VALUE_a] != NULL)
+	if (_board[BOARD_SIZE - (place.at(1) - VALUE_1) - 1][place.at(0) - VALUE_a] != NULL)
 	{
-		toRet = _board[BOARD_SIZE - (place.at(1) - VALUE_1)][place.at(0) - VALUE_a]->getType();
+		toRet = _board[BOARD_SIZE - (place.at(1) - VALUE_1) - 1][place.at(0) - VALUE_a]->getType();
 	}
 	return toRet;
 }
@@ -122,12 +143,15 @@ bool Game::isShah(char player)
 
 	// need to add
 
-	shah = shahPawn(kingPlace);/*shahRook(kingPlace, player);
+	shah = shahKing(kingPlace, player);
 	if (!shah)
 	{
-		shah = shahKing(kingPlace, player);
-	}*/
-
+		shah = shahPawn(kingPlace, player);
+	}
+	if (!shah)
+	{
+		shah = shahRook(kingPlace, player);
+	}
 	return shah;
 }
 
@@ -135,7 +159,7 @@ bool Game::isFreePath(string movement)
 {
 	bool check = true;
 	string place = "";
-	for (unsigned int i = 0; i < movement.length(); i += 2)
+	for (int i = 0; i < movement.length(); i += 2)
 	{
 		place = movement.at(i);
 		place += movement.at(i + 1);
@@ -212,11 +236,17 @@ string Game::convertPlace(int i, int j)
 
 	i = 8 - i; // make at board numbers
 
-			   // set place with ascii
+	// set place with ascii
 	place[0] = (char)(j + VALUE_a);
 	place[1] = (char)(i + VALUE_1 - 1);
 
 	return place;
+}
+
+void Game::convertPlace(string place, int& i, int& j)
+{
+	i = 8 - (place[0] - VALUE_a);
+	j = place[1] - VALUE_1;
 }
 
 string Game::getKingPlace(char player)
@@ -337,13 +367,13 @@ int Game::isBlack(char chessman)
 }
 
 
-bool Game::shahPawn(string kingPlace)
+bool Game::shahPawn(string kingPlace, char player)
 {
 	int j = (int)kingPlace.at(0) - VALUE_a;
 	int i = (int)kingPlace.at(1) - VALUE_1 + 1;
 	bool isShah = false;
 
-	if (_turn == BLACK_NUM)
+	if (player == BLACK_NUM)
 	{
 		if (i > 0 && j > 0)
 		{
@@ -369,3 +399,22 @@ bool Game::shahPawn(string kingPlace)
 	return isShah;
 }
 
+char Game::getTurn()
+{
+	return _turn;
+}
+
+char Game::convertTurnToChar()
+{
+	char ret = 0;
+	if (_turn == WHITE_NUM)
+	{
+		ret = WHITE_CH;
+	}
+	else
+	{
+		ret = BLACK_CH;
+	}
+
+	return ret;
+}
