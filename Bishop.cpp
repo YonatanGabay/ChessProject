@@ -4,7 +4,7 @@
 #include "Bishop.h"
 #include "Game.h"
 
-Bishop::Bishop(char type, string place) : Chessman(type, place)
+Bishop::Bishop(char type, string place) : Chessman(type, place) 
 {
 
 }
