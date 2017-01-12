@@ -63,7 +63,7 @@ private:
 	static void convertPlace(string place, int& i, int& j);
 	static Chessman* makeChessman(char type, string place);
 	
-	char convertTurnToChar();
+	char convertTurnToChar(char player);
 
 	bool shahRook(string kingPlace, char player);
 	bool shahKing(string kingPlace, char player);
@@ -77,7 +77,7 @@ public:
 	Game(char turn, string board);
 	~Game();
 
-	string turn(string movement);
+	void chTurn();
 	char* move(string movement);
 
 	int isBlack(char chessman);

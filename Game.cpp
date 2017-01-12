@@ -50,56 +50,43 @@ Game::~Game()
 
 char* Game::move(string movement)
 {
-	/*
-	#define VALID_MOVEMENT '0'  ++
-	#define SHAH_ON_OPPONENT '1'
-	#define SOURCE_PLACE_INVALID '2' ++
-	#define DEST_PLACE_INVALID '3'  ++
-	#define SHAH_ON_HIMSELF '4'
-	#define INVALID_PLACE_INDEX '5' ++
-	#define INVALID_MOVEMENT '6'  ++
-	#define SAME_SOURCE_AND_DEST '7'  ++
-
-	*/
 	int i, j;
 	string dst = movement.substr(2, 2);
 	string src = movement.substr(0, 2);
 	char* toRet = new char[2];
 	toRet[1] = 0;
 	Chessman* temp;
-	int srcLetter = (int)movement.at(0) - VALUE_a;
-	int srcNum = (int)movement.at(1) - VALUE_1 + 1;
-	int dstLetter = (int)movement.at(2) - VALUE_a;
-	int dstNum = (int)movement.at(3) - VALUE_1 + 1;
+	int srcLetter = 0;
+	int srcNum = 0;
+	int dstLetter = 0;
+	int dstNum = 0;
+
+	convertPlace((string)src, srcNum, srcLetter);
+	convertPlace((string)dst, dstNum, dstLetter);
 
 	if (srcNum < 0 || srcNum > BOARD_SIZE || srcLetter < 0 || srcLetter > BOARD_SIZE || dstLetter < 0 || dstLetter > BOARD_SIZE || dstNum < 0 || dstNum > BOARD_SIZE)
 	{
 		toRet[0] = INVALID_PLACE_INDEX;
 	}
-	else if (isBlack(hasChessman(src)) != convertTurnToChar()) //check if in the sorce place there is a valid chessman
+	else if (isBlack(hasChessman(src)) != convertTurnToChar(_turn)) //check if in the sorce place there is a valid chessman
 	{
 		toRet[0] = SOURCE_PLACE_INVALID;
 	}
 	else
 	{
-		convertPlace(string(src), i, j);
-
-		toRet[0] = _board[i][j]->validMove(movement, *this)[0];
+		toRet[0] = _board[srcNum][srcLetter]->validMove(movement, *this)[0];
 
 		if (toRet[0] == VALID_MOVEMENT)
 		{
 			//save dst
-			temp = _board[BOARD_SIZE - dstNum][dstLetter];
+			temp = _board[dstNum][dstLetter];
 			//change places
-			_board[BOARD_SIZE - dstNum][dstLetter] = _board[BOARD_SIZE - srcNum][srcLetter];
-			_board[BOARD_SIZE - srcNum][srcLetter] = NULL;
+			_board[dstNum][dstLetter] = _board[srcNum][srcLetter];
+			_board[srcNum][srcLetter] = NULL;
 
 			//check if there is shah on himself
-			if (isShah(_turn))
+			if (isShah(convertTurnToChar(_turn)))
 			{
-				_board[BOARD_SIZE - srcNum][srcLetter] = _board[BOARD_SIZE - dstNum][dstLetter];
-				_board[BOARD_SIZE - dstNum][dstLetter] = temp;
-
 				toRet[0] = SHAH_ON_HIMSELF;
 			}
 
@@ -114,7 +101,16 @@ char* Game::move(string movement)
 			{
 				toRet[0] = SHAH_ON_OPPONENT;
 			}
+
+			_board[srcNum][srcLetter] = _board[dstNum][dstLetter];
+			_board[dstNum][dstLetter] = temp;
 		}
+	}
+
+	if (toRet[0] == VALID_MOVEMENT || toRet[0] == SHAH_ON_OPPONENT)
+	{
+		changePlace(movement);
+		chTurn();
 	}
 
 	return toRet;
@@ -123,9 +119,12 @@ char* Game::move(string movement)
 char Game::hasChessman(string place)
 {
 	char toRet = NULL;
-	if (_board[BOARD_SIZE - (place.at(1) - VALUE_1) - 1][place.at(0) - VALUE_a] != NULL)
+	int i = 0;
+	int j = 0;
+	convertPlace(place, i, j);
+	if (_board[i][j] != NULL)
 	{
-		toRet = _board[BOARD_SIZE - (place.at(1) - VALUE_1) - 1][place.at(0) - VALUE_a]->getType();
+		toRet = _board[i][j]->getType();
 	}
 	return toRet;
 }
@@ -173,13 +172,23 @@ bool Game::isFreePath(string movement)
 
 void Game::changePlace(string movement) //movement: "abcd", ab= sorce place, cd= destination place
 {
-	Chessman* temp = _board[BOARD_SIZE - (movement.at(1) - VALUE_1)][movement.at(0) - VALUE_a]; //save the chessman to move
-	_board[BOARD_SIZE - (movement.at(1) - VALUE_1)][movement.at(0) - VALUE_a] = NULL; //empy the sorce place
-	if (_board[BOARD_SIZE - (movement.at(3) - VALUE_1)][movement.at(2) - VALUE_a]) //eat the chessman in destination place if there is, Yummi!!
+	int srcLetter = 0;
+	int srcNum = 0;
+	int dstLetter = 0;
+	int dstNum = 0;
+
+	convertPlace(movement.substr(0,2) ,srcNum, srcLetter);
+	convertPlace(movement.substr(2, 2), dstNum, dstLetter);
+	
+	Chessman* temp = _board[srcNum][srcLetter]; //save the chessman to move
+	_board[srcNum][srcLetter] = NULL; //empy the sorce place
+	if (_board[dstNum][dstLetter]) //eat the chessman in destination place if there is, Yummi!!
 	{
-		delete _board[BOARD_SIZE - (movement.at(3) - VALUE_1)][movement.at(2) - VALUE_a];
+		delete _board[dstNum][dstLetter];
 	}
-	_board[BOARD_SIZE - (movement.at(3) - VALUE_1)][movement.at(02) - VALUE_a] = temp; //save in destination place the chessman
+	_board[dstNum][dstLetter] = temp; //save in destination place the chessman
+
+	_board[dstNum][dstLetter]->setPlace(movement.substr(2, 2));
 }
 
 Chessman* Game::makeChessman(char type, string place)
@@ -224,10 +233,16 @@ void Game::printBoard()
 	}
 }
 
-string Game::turn(string movement)
+void Game::chTurn()
 {
-	// need to do
-	return NULL;
+	if (_turn == BLACK_NUM)
+	{
+		_turn = WHITE_NUM;
+	}
+	else
+	{
+		_turn = BLACK_NUM;
+	}
 }
 
 string Game::convertPlace(int i, int j)
@@ -245,8 +260,8 @@ string Game::convertPlace(int i, int j)
 
 void Game::convertPlace(string place, int& i, int& j)
 {
-	i = 8 - (place[0] - VALUE_a);
-	j = place[1] - VALUE_1;
+	j = place[0] - VALUE_a;
+	i = BOARD_SIZE - (place[1] - VALUE_1) - 1;
 }
 
 string Game::getKingPlace(char player)
@@ -257,7 +272,12 @@ string Game::getKingPlace(char player)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if ((player == WHITE_CH && _board[i][j]->getType() == KING_W) || (player == WHITE_CH && _board[i][j]->getType() == KING_W))
+			if (_board[i][j] == NULL)
+			{
+				continue;
+			}
+			else if ((player == WHITE_CH && _board[i][j]->getType() == KING_W) ||
+				     (player == BLACK_CH && _board[i][j]->getType() == KING_B))
 			{
 				place = convertPlace(i, j);
 				break;
@@ -274,15 +294,17 @@ string Game::getKingPlace(char player)
 
 bool Game::shahRook(string kingPlace, char player)
 {
-	int j = (int)kingPlace.at(0) - VALUE_a;
-	int i = (int)kingPlace.at(1) - VALUE_1 + 1;
+	int j = 0;
+	int i = 0;
 	bool isShah = false;
+	convertPlace(kingPlace, i, j);
 
-	for (i = i; i < BOARD_SIZE; i++)
+	for (i = i+1; i < BOARD_SIZE; i++)
 	{
 		if (_board[i][j])
 		{
-			if ((_board[i][j]->getType() == KING_B && player == BLACK_CH) || (_board[i][j]->getType() == KING_W && player == WHITE_CH))
+			if ((_board[i][j]->getType() == ROOK_W && player == BLACK_CH) ||
+				(_board[i][j]->getType() == ROOK_B && player == WHITE_CH))
 			{
 				isShah = true;
 			}
@@ -290,28 +312,57 @@ bool Game::shahRook(string kingPlace, char player)
 		}
 	}
 
-	i = (int)kingPlace.at(1) - VALUE_1 + 1;
-
-	for (j = j; j < BOARD_SIZE; j++)
+	for (i = i - 1; i >= 0; i--)
 	{
 		if (_board[i][j])
 		{
-			if ((_board[i][j]->getType() == KING_B && player == BLACK_CH) || (_board[i][j]->getType() == KING_W && player == WHITE_CH))
+			if ((_board[i][j]->getType() == ROOK_W && player == BLACK_CH) ||
+				(_board[i][j]->getType() == ROOK_B && player == WHITE_CH))
 			{
 				isShah = true;
 			}
 			break;
 		}
 	}
+
+	convertPlace(kingPlace, i, j);
+
+	for (j = j + 1; j < BOARD_SIZE; j++)
+	{
+		if (_board[i][j])
+		{
+			if ((_board[i][j]->getType() == ROOK_W && player == BLACK_CH) ||
+				(_board[i][j]->getType() == ROOK_B && player == WHITE_CH))
+			{
+				isShah = true;
+			}
+			break;
+		}
+	}
+
+	for (j = j - 1; j >= 0; j--)
+	{
+		if (_board[i][j])
+		{
+			if ((_board[i][j]->getType() == ROOK_W && player == BLACK_CH) || (_board[i][j]->getType() == ROOK_B && player == WHITE_CH))
+			{
+				isShah = true;
+			}
+			break;
+		}
+	}
+
 
 	return isShah;
 }
 
 bool Game::shahKing(string kingPlace, char player)
 {
-	int j = (int)kingPlace.at(0) - VALUE_a;
-	int i = (int)kingPlace.at(1) - VALUE_1 + 1;
+	int j = 0;
+	int i = 0;
 	bool isShah = false;
+
+	convertPlace(kingPlace, i, j);
 
 	if (i > 0)
 	{
@@ -321,11 +372,11 @@ bool Game::shahKing(string kingPlace, char player)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i, j - 1)) == KING_W));
 	}
-	if (j < BOARD_SIZE && !isShah)
+	if (j < BOARD_SIZE-1 && !isShah)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i, j + 1)) == KING_W));
 	}
-	if (i < BOARD_SIZE && !isShah)
+	if (i < BOARD_SIZE-1 && !isShah)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j)) == KING_W));
 	}
@@ -333,15 +384,15 @@ bool Game::shahKing(string kingPlace, char player)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i - 1, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i - 1, j - 1)) == KING_W));
 	}
-	if (j > 0 && i < BOARD_SIZE && !isShah)
+	if (j > 0 && i < BOARD_SIZE-1 && !isShah)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j - 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j - 1)) == KING_W));
 	}
-	if (i > 0 && j < BOARD_SIZE && !isShah)
+	if (i > 0 && j < BOARD_SIZE-1 && !isShah)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i - 1, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i - 1, j + 1)) == KING_W));
 	}
-	if (j < BOARD_SIZE && i < BOARD_SIZE && !isShah)
+	if (j < BOARD_SIZE-1 && i < BOARD_SIZE-1 && !isShah)
 	{
 		isShah = ((player == BLACK_CH && hasChessman(convertPlace(i + 1, j + 1)) == KING_B) || (player == WHITE_CH && hasChessman(convertPlace(i + 1, j + 1)) == KING_W));
 	}
@@ -404,10 +455,10 @@ char Game::getTurn()
 	return _turn;
 }
 
-char Game::convertTurnToChar()
+char Game::convertTurnToChar(char player)
 {
 	char ret = 0;
-	if (_turn == WHITE_NUM)
+	if (player == WHITE_NUM)
 	{
 		ret = WHITE_CH;
 	}

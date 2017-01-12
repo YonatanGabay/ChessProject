@@ -40,11 +40,11 @@ string Bishop::validMove(string movement, Game game)
 				{
 					for (int i = (int)LETTER_FROM + 1; i < (int)LETTER_TO; i++)
 					{
-						if (game.hasChessman(string(from_)) != NULL)
-							valid = false;
-
 						from_[LETTER_INDEX]++;
 						from_[NUM_INDEX]++;
+
+						if (game.hasChessman(string(from_)) != NULL)
+							valid = false;
 					}
 
 					if (valid)
@@ -61,11 +61,11 @@ string Bishop::validMove(string movement, Game game)
 
 					for (int i = (int)LETTER_FROM - 1; i > (int)LETTER_TO; i++)
 					{
-						if (game.hasChessman(string(from_)) != NULL)
-							valid = false;
-
 						from_[LETTER_INDEX]++;
 						from_[NUM_INDEX]++;
+
+						if (game.hasChessman(string(from_)) != NULL)
+							valid = false;
 					}
 
 					if (valid)
