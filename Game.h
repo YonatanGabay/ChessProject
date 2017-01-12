@@ -7,6 +7,7 @@
 
 using namespace std; // using std functions
 
+#define TURN 64
 #define	RET_SIZE 2
 #define BOARD_SIZE 8
 
@@ -74,7 +75,7 @@ private:
 
 public:
 	Game(const Game& other);
-	Game(char turn, string board);
+	Game(string board);
 	~Game();
 
 	void chTurn();

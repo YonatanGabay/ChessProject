@@ -48,34 +48,28 @@ string Bishop::validMove(string movement, Game game)
 					}
 
 					if (valid)
-					{
 						ret[RET_INDEX] = VALID_MOVEMENT;
-					}
+
 					else // if (!valid)
-					{
 						ret[RET_INDEX] = INVALID_MOVEMENT;
-					}
 				}
 				else // if (LETTER_TO < LETTER_FROM)
 				{
 
-					for (int i = (int)LETTER_FROM - 1; i > (int)LETTER_TO; i++)
+					for (int i = (int)LETTER_FROM - 1; i != (int)LETTER_TO; i--)
 					{
-						from_[LETTER_INDEX]++;
-						from_[NUM_INDEX]++;
+						from_[LETTER_INDEX]--;
+						from_[NUM_INDEX]--;
 
 						if (game.hasChessman(string(from_)) != NULL) // cheek the way
 							valid = false;
 					}
 
 					if (valid)
-					{
 						ret[RET_INDEX] = VALID_MOVEMENT;
-					}
+
 					else // if (!valid)
-					{
 						ret[RET_INDEX] = INVALID_MOVEMENT;
-					}
 				}
 			}
 			else // if is not same remainder
@@ -84,38 +78,39 @@ string Bishop::validMove(string movement, Game game)
 				bool found = false;
 				char from_[] = { LETTER_FROM, NUM_FROM };
 
-				while (from_[LETTER_INDEX] <= 'h' && from_[NUM_INDEX] >= '0' && !found) // while is out of board borders
+				if (LETTER_TO > LETTER_FROM)
 				{
-					from_[LETTER_INDEX]++;
-					from_[NUM_INDEX]--;
+					for (int i = (int)LETTER_FROM + 1; i < (int)LETTER_TO; i++)
+					{
+						from_[LETTER_INDEX]++;
+						from_[NUM_INDEX]--;
 
-					if (string(from_) == string(TO)) // if the dest place found
-						found = true;
+						if (game.hasChessman(string(from_)) != NULL) // cheek the way
+							valid = false;
+					}
 
-					else if (game.hasChessman(string(from_)) != NULL) // if it have chessman in his way
-						valid = false;
+					if (valid)
+						ret[RET_INDEX] = VALID_MOVEMENT;
+
+					else // if (!valid)
+						ret[RET_INDEX] = INVALID_MOVEMENT;
 				}
-
-				if (!found)
-					valid = true;
-
-				while (from_[LETTER_INDEX] >= 'a' && from_[NUM_INDEX] <= '8' && !found) // while is out of board borders
+				else // if (LETTER_TO < LETTER_FROM)
 				{
-					from_[LETTER_INDEX]--;
-					from_[NUM_INDEX]++;
+					for (int i = (int)LETTER_TO - 1; i > (int)LETTER_FROM; i--)
+					{
+						from_[LETTER_INDEX]--;
+						from_[NUM_INDEX]++;
+						if (game.hasChessman(string(from_)) != NULL) // cheek the way
+							valid = false;
+					}
 
-					if (string(from_) == string(TO)) // if the dest place found
-						found = true;
+					if (valid)
+						ret[RET_INDEX] = VALID_MOVEMENT;
 
-					else if (game.hasChessman(string(from_)) != NULL) // if it have chessman in his way
-						valid = false;
+					else // if (!valid)
+						ret[RET_INDEX] = INVALID_MOVEMENT;
 				}
-
-				if (found && valid) // if is valid movement
-					ret[RET_INDEX] = VALID_MOVEMENT;
-
-				else // if (!found || !valid) // if is invalid movement
-					ret[RET_INDEX] = INVALID_MOVEMENT;
 			}
 		}
 

@@ -3,6 +3,7 @@
 #include <thread>
 #include <cstdlib>
 #include <string>
+#include <time.h>
 #include "Game.h"
 
 using namespace std;
@@ -37,21 +38,15 @@ void main()
 			return;
 		}
 	}
-	
 
 	char msgToGraphics[1024];
 	// msgToGraphics should contain the board string accord the protocol
-	// YOUR CODE
-
-	// get rand player
-	int turn = rand() % 2;
-	turn += ADD_TO_ASCII;
 
 	// make start str and put the first layer
 	strcpy_s(msgToGraphics, "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr*");
-	msgToGraphics[TURN] = 1 + ADD_TO_ASCII; //(char)turn;-----------------------------------------------------------------------------
+	msgToGraphics[TURN] = (char)(rand() % 2 + ADD_TO_ASCII); // set rand start player
 
-	Game game((char)turn, string(msgToGraphics));
+	Game game(msgToGraphics);
 
 	game.printBoard();
 
@@ -64,12 +59,11 @@ void main()
 	{
 		// should handle the string the sent from graphics
 		// according the protocol. Ex: e2e4           (move e2 to e4)
-		
-		// YOUR CODE
 
 		const char* data = game.move(msgFromGraphics);
 		cout << data << endl;
 		strcpy_s(msgToGraphics, data); // msgToGraphics should contain the result of the operation
+		game.printBoard();
 
 		/******* JUST FOR EREZ DEBUGGING ******/
 		//int r = rand() % 10; // just for debugging......

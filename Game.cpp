@@ -10,16 +10,15 @@
 #include "Rook.h"
 
 
-Game::Game(char turn, string board)
+Game::Game(string board)
 {
 	int k = 0;
-
-	this->_turn = board[64];
-
+	
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
 			this->_board[i][j] = makeChessman(board[k++], convertPlace(i, j));
 
+	this->_turn = board[TURN];
 }
 
 Game::Game(const Game& other)

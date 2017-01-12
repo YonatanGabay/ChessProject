@@ -1,4 +1,14 @@
 ﻿  Source.cpp
-c:\users\yonatangabay\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project\chessproject\chessproject\source.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\yonatangabay\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project\chessproject\chessproject\source.cpp(17): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Rook.cpp
+  Queen.cpp
+  Pawn.cpp
+  Knight.cpp
+  King.cpp
+  Game.cpp
+  Chessman.cpp
+  Bishop.cpp
   ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess Project\ChessProject\Debug\ChessProject.exe
   ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess Project\ChessProject\Debug\ChessProject.pdb (Partial PDB)

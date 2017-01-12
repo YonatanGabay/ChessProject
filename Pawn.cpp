@@ -27,6 +27,8 @@ string Pawn::validMove(string movement, Game game)
 	const char LETTER_TO = TO[LETTER], NUM_TO = TO[NUM];
 	const char LETTER_FROM = FROM[LETTER], NUM_FROM = FROM[NUM];
 
+	char cheekMove[] = { LETTER_TO, "*" };
+
 	if (TO != FROM) // if src and dst different
 	{
 		if (game.isBlack(game.hasChessman(FROM)) != game.isBlack(game.hasChessman(TO))) // if is not same color
@@ -35,25 +37,31 @@ string Pawn::validMove(string movement, Game game)
 			{
 				if (this->getType() == PAWN_W)
 				{
+					cheekMove[1] = NUM_TO + 1;
+
 					if (NUM_TO + 1 == NUM_FROM && game.hasChessman(TO) == NULL)
-					{
 						ret[RET_INDEX] = VALID_MOVEMENT;
-					}
-					else
-					{
-						ret[RET_INDEX] = INVALID_MOVEMENT;
-					}
+
+					else if (NUM_TO + 2 == NUM_FROM && game.hasChessman(TO) == NULL)
+						if (NUM_FROM == WHITE_START_NUM && game.hasChessman(string(cheekMove)) == NULL)
+							ret[RET_INDEX] = VALID_MOVEMENT;
+
+						else
+							ret[RET_INDEX] = INVALID_MOVEMENT;
 				}
 				else // if (this->getType() == PAWN_B)
 				{
+					cheekMove[1] = NUM_TO - 1;
+
 					if (NUM_TO - 1 == NUM_FROM && game.hasChessman(TO) == NULL)
-					{
 						ret[RET_INDEX] = VALID_MOVEMENT;
-					}
+
+					else if (NUM_TO - 2 == NUM_FROM && game.hasChessman(TO) == NULL)
+						if (NUM_FROM == BLACK_START_NUM && game.hasChessman(string(cheekMove)) == NULL)
+							ret[RET_INDEX] = VALID_MOVEMENT;
+
 					else
-					{
 						ret[RET_INDEX] = INVALID_MOVEMENT;
-					}
 				}
 			}
 			else if (LETTER_FROM == LETTER_TO + 1 || LETTER_FROM == LETTER_TO - 1)

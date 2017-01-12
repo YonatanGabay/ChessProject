@@ -6,6 +6,9 @@
 #include "Chessman.h"
 #include "Game.h"
 
+#define BLACK_START_NUM '2'
+#define WHITE_START_NUM '7'
+
 using namespace std; // using std functions
 
 
