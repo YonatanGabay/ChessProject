@@ -1,6 +1,4 @@
-﻿  Pawn.cpp
-  Game.cpp
-c:\users\yonatangabay\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project part a\chessproject\chessproject\game.cpp(162): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess project Part A\ChessProject\Debug\ChessProject.exe
-  ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess project Part A\ChessProject\Debug\ChessProject.pdb (Full PDB)
+﻿  Source.cpp
+c:\users\yonatangabay\desktop\magshimim\year 2\advanced programming (c++)\lesson 7+8 - chess project\chessproject\chessproject\source.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess Project\ChessProject\Debug\ChessProject.exe
+  ChessProject.vcxproj -> C:\Users\YonatanGabay\Desktop\Magshimim\Year 2\Advanced Programming (C++)\Lesson 7+8 - Chess Project\ChessProject\Debug\ChessProject.pdb (Partial PDB)

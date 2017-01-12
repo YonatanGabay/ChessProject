@@ -49,7 +49,7 @@ void main()
 
 	// make start str and put the first layer
 	strcpy_s(msgToGraphics, "RNBQKBNRPPPPPPPP################################pppppppprnbqkbnr*");
-	msgToGraphics[TURN] = (char)turn;
+	msgToGraphics[TURN] = 1 + ADD_TO_ASCII; //(char)turn;-----------------------------------------------------------------------------
 
 	Game game((char)turn, string(msgToGraphics));
 

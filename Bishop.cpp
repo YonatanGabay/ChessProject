@@ -4,7 +4,7 @@
 #include "Bishop.h"
 #include "Game.h"
 
-Bishop::Bishop(char type, string place) : Chessman(type, place) 
+Bishop::Bishop(char type, string place) : Chessman(type, place)
 {
 
 }
@@ -34,7 +34,7 @@ string Bishop::validMove(string movement, Game game)
 			if (LETTER_TO - NUM_TO == LETTER_FROM - NUM_FROM) // if is same remainder - option one
 			{
 				bool valid = true;
-				char from_[] = { LETTER_FROM, NUM_FROM }; // make copy to sourse place
+				char from_[] = { LETTER_FROM, NUM_FROM }; // make copy to source place
 
 				if (LETTER_TO > LETTER_FROM)
 				{
@@ -43,7 +43,7 @@ string Bishop::validMove(string movement, Game game)
 						from_[LETTER_INDEX]++;
 						from_[NUM_INDEX]++;
 
-						if (game.hasChessman(string(from_)) != NULL)
+						if (game.hasChessman(string(from_)) != NULL) // cheek the way
 							valid = false;
 					}
 
@@ -64,7 +64,7 @@ string Bishop::validMove(string movement, Game game)
 						from_[LETTER_INDEX]++;
 						from_[NUM_INDEX]++;
 
-						if (game.hasChessman(string(from_)) != NULL)
+						if (game.hasChessman(string(from_)) != NULL) // cheek the way
 							valid = false;
 					}
 
